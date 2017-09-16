@@ -1,0 +1,17 @@
+---
+# tasks file for aws-ec2-ami
+#ec2-ami/tasks/ec2-ami.yml
+- fail: msg="The minimum Ansible version required to run is 2.0.1. To upgrade run 'sudo pip install --upgrade ansible'."
+  when: ansible_version.major|int != 2 and ansible_version.minor|int < 0 and ansible_version.revision|int < 1
+
+- name: Create ami
+  ec2_ami:
+    instance_id: "{{ ec2_ami_instance_id }}"
+    name: "{{ project_build }}"
+    region: "{{ region }}"
+    wait: "{{ ec2_ami_wait | default(true) }}"
+    wait_timeout: "{{ wait_timeout | default(1000)}}"
+    tags: "{{ aws_resource_tags }}"
+    state: "{{ state | default('present') }}"
+    no_reboot: true
+  register: ec2_ami
