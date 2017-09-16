@@ -1,0 +1,9 @@
+---
+- hosts: local    
+  connection: local
+  gather_facts: no 
+  tasks:
+  - ec2_ami_find:
+     name: "*wso2*"
+     sort: name
+    register: ami_find

@@ -1,0 +1,9 @@
+---
+  - name: deletion an EC2-ELB
+    hosts: localhost
+    connection: local
+    gather_facts: False
+    tasks:
+    - ec2_elb_lb:
+         name: mb-wso2-dev2-devry-edu 
+         state: absent

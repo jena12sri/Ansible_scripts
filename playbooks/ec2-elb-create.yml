@@ -1,0 +1,41 @@
+---
+  - name: Provision an EC2-ELB
+    hosts: localhost
+    connection: local
+    gather_facts: False
+    tasks:
+    -  ec2_elb_lb:
+        name: mb-wso2-dev2-devry-edu 
+        scheme: internal
+        idle_timeout: 960
+        security_group_ids: sg-d80a9bb1 
+        state: present 
+        ec2_url: https://ec2.eu-east-2.amazonaws.com
+        instance_ids:
+          - i-0d366aad9bf71ae0c 
+        subnets:
+          - subnet-33f45c5a
+        listeners:
+          - protocol: http # options are http, https, ssl, tcp
+            load_balancer_port: 80 
+            instance_port: 5675 
+          - protocol: http # options are http, https, ssl, tcp
+            load_balancer_port: 5675 
+            instance_port: 5675 
+          - protocol: https
+            load_balancer_port: 443
+            instance_port: 8243 
+            ssl_certificate_id: "arn:aws:acm:us-east-2:607741057297:certificate/55c8cece-c580-43a5-8e56-2029c7e46702"
+          - protocol: https
+            load_balancer_port: 8243 
+            instance_port: 8243
+            ssl_certificate_id: "arn:aws:acm:us-east-2:607741057297:certificate/55c8cece-c580-43a5-8e56-2029c7e46702"
+        health_check:
+            ping_protocol: http # options are http, https, ssl, tcp
+            ping_port: 5675 
+            ping_path: "/services" # not required for tcp or ssl
+            response_timeout: 5 # seconds
+            interval: 6 # seconds
+            unhealthy_threshold: 2
+            healthy_threshold: 2 
+

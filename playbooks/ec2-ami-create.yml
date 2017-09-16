@@ -1,0 +1,16 @@
+---
+  - name: Create AMI 
+    hosts: local
+    connection: local
+    gather_facts: False
+    vars:
+        aws_resource_tags: {
+         'Name': "{{ project_name }}-{{ version }}",
+        }
+        region: us-east-2
+        project_name: wso2-base-ami
+        version: "{{ version }}" 
+        project_build: "{{ project_name }}-{{ version }}"
+
+    roles:
+        - { role: aws-ec2-ami }

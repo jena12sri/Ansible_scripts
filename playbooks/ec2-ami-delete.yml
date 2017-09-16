@@ -1,0 +1,10 @@
+---
+- hosts: local    
+  connection: local
+  gather_facts: no 
+  tasks:
+  - ec2_ami:
+        image_id: "{{ image_id }}" 
+        delete_snapshot: True 
+        state: absent
+        ec2_url: https://ec2.eu-east-2.amazonaws.com
